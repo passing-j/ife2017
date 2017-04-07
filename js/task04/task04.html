@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>task04队列</title>
+  <style>
+  </style>
+</head>
+<body>
+  <div class="main">
+    <div class="form-group">
+      <label for="">Enter：</label>
+      <input id="inp" type="text" class="form-control">
+    </div>
+    <div id="line">
+      <span>28</span>
+      <span>22</span>
+      <span>06</span>
+    </div>
+    <div class="btn-group">
+      <button id="shift" class="btn btn-warning">左侧出</button>
+      <button id="unshift" class="btn btn-success">左侧入</button>
+      <button id="push" class="btn btn-success">右侧入</button>
+      <button id="pop" class="btn btn-warning">右侧出</button>
+    </div>
+  </div>
+  <script>
+  var arrNodes = document.getElementById('line').getElementsByTagName('span');
+  var arr = [];
+  for(let i=0;i<arrNodes.length;i++){
+    arr.push(arrNodes[i].innerText);
+  }
+  //左侧出
+  document.getElementById('shift').onclick = function() {
+    alert(arr.shift());
+    render();
+  }
+
+  // 左侧入
+  document.getElementById('unshift').onclick = function() {
+    var inp_val = document.getElementById('inp').value;
+    if(inp_val != ''){
+      arr.unshift(inp_val);
+      document.getElementById('inp').value = '';
+      render();
+    }
+  }
+
+  // 右侧入
+  document.getElementById('push').onclick = function() {
+    var inp_val = document.getElementById('inp').value;
+    if(inp_val != ''){
+      arr.push(inp_val);
+      document.getElementById('inp').value = '';
+      render();
+    }
+  }
+
+  // 右侧出
+  document.getElementById('pop').onclick = function() {
+    alert(arr.pop());
+    render();
+  }
+  function render() {
+    var str = '';
+    for(let i=0;i<arr.length;i++){
+      str += '<span>'+arr[i]+'</span>';
+    }
+    document.getElementById('line').innerHTML = str;
+  }
+  </script>
+</body>
+</html>
