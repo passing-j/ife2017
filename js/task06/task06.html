@@ -2,17 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>task04队列</title>
+  <title>task06队列</title>
   <style>
-  #line {
-    height: 200px;
-    display: flex;
-    align-items: flex-end;
-  }
   #line span {
     margin-left: 5px;
-    background: #0D8C40;
-    color: #F2F2F2;
   }
   </style>
 </head>
@@ -20,7 +13,7 @@
   <div class="main">
     <div class="form-group">
       <label for="">Enter：</label>
-      <input id="inp" type="text" class="form-control">
+      <textarea name="" id="inp" cols="30" rows="5"></textarea>
     </div>
     <div id="line">
       <span>28</span>
@@ -49,7 +42,7 @@
   // 左侧入
   document.getElementById('unshift').onclick = function() {
     var inp_val = document.getElementById('inp').value;
-    if(inp_val >=10 && inp_val <=100){
+    if(!isNaN(inp_val)){
       arr.unshift(inp_val);
       document.getElementById('inp').value = '';
       render();
@@ -59,7 +52,7 @@
   // 右侧入
   document.getElementById('push').onclick = function() {
     var inp_val = document.getElementById('inp').value;
-    if(inp_val >=10 && inp_val <=100){
+    if(!isNaN(inp_val)){
       arr.push(inp_val);
       document.getElementById('inp').value = '';
       render();
@@ -71,31 +64,15 @@
     alert(arr.pop());
     render();
   }
-
-  // 渲染成柱状图
-  function col() {
-    for(let i=0;i<arrNodes.length;i++){
-      arrNodes[i].style.width = '20px';
-      arrNodes[i].style.height = arrNodes[i].innerText*2+'px';
-    }
-    arr.sort(function(a,b){
-      return a-b;
-    })
-  }
-
-  // 重绘图表
   function render() {
     var str = '';
-    if(arr.length > 60){
-      alert('不能再多了！');
-    }
     for(let i=0;i<arr.length;i++){
       str += '<span>'+arr[i]+'</span>';
     }
     document.getElementById('line').innerHTML = str;
-    col();
   }
-  col();// 初次加载时渲染柱状图
+
+  /\s*/
   </script>
 </body>
 </html>
