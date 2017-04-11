@@ -5,87 +5,151 @@
   <title>task07 Tree01</title>
   <style>
   div {
-    padding: 5px;
-    margin: 5px;
-    border: 2px solid #C55E05;
     display: flex;
-    justify-content: space-around;
+    min-width: 15px;
+    min-height: 10px;
+    margin: 10px;
+    border: 2px solid #E49E05;
+    background-color: #FFFFFF;
   }
-  #root {
-    width: 520px;
-    height: 260px;
-    display: block;
-  }
-  section {
-    margin-top: 20px;
-  }
-  button {
-    border: none;
-    padding: 5px;
-    cursor: pointer;
-    background-color: #38C606;
-    color: white;
-  }
-  button:hover {
-    box-shadow: 1px 1px 0 0 #478701;
+  .nowColor {
+    background-color: #E9F502;
   }
   </style>
 </head>
 <body>
   <div id="root">A
-    <div class="fi-ch">B
-      <div class="se-ch">D
-        <div class="th-ch">H
-          <div class="fo-ch">P</div>
-          <div class="fo-ch">Q</div>
+    <div>B
+      <div>D
+        <div>H
+          <div>P</div>
+          <div>Q</div>
         </div>
-        <div class="th-ch">I
-          <div class="fo-ch">R</div>
-          <div class="fo-ch">S</div>
+        <div>I
+          <div>R</div>
+          <div>S</div>
         </div>
       </div>
-      <div class="se-ch">E
-        <div class="th-ch">J
-          <div class="fo-ch">T</div>
-          <div class="fo-ch">U</div>
+      <div>E
+        <div>J
+          <div>T</div>
+          <div>U</div>
         </div>
-        <div class="th-ch">K
-          <div class="fo-ch">V</div>
-          <div class="fo-ch">W</div>
+        <div>K
+          <div>V</div>
+          <div>W</div>
         </div>
       </div>
     </div>
-    <div class="fi-ch">C
-      <div class="se-ch">F
-        <div class="th-ch">L
-          <div class="fo-ch">X</div>
-          <div class="fo-ch">Y</div>
+    <div>C
+      <div>F
+        <div>L
+          <div>X</div>
+          <div>Y</div>
         </div>
-        <div class="th-ch">M
-          <div class="fo-ch">Z</div>
-          <div class="fo-ch">!</div>
+        <div>M
+          <div>Z</div>
+          <div>!</div>
         </div>
       </div>
-      <div class="se-ch">G
-        <div class="th-ch">N
-          <div class="fo-ch">*</div>
-          <div class="fo-ch">#</div>
+      <div>G
+        <div>N
+          <div>*</div>
+          <div>#</div>
         </div>
-        <div class="th-ch">O
-          <div class="fo-ch">$</div>
-          <div class="fo-ch">&</div>
+        <div>O
+          <div>$</div>
+          <div>&</div>
         </div>
       </div>
     </div>
   </div>
 
   <section class="btn-group">
-    <button>前序遍历</button>
-    <button>中序遍历</button>
-    <button>后序遍历</button>
+    <button id="pre">前序遍历</button>
+    <button id="cen">中序遍历</button>
+    <button id="las">后序遍历</button>
   </section>
   <script>
-  var domTree = document.ge
+  var childNodeLists = [];
+  var timer = null;
+  // 点击按钮时的遍历
+  // 先序遍历
+  $("#pre").onclick = function(){
+    // 重置 or 结束正在进行的遍历操作
+    resetOrder();
+    // 获取先序遍历的结果 组成的数组
+    preOrder($("#root"));
+    // 改变颜色
+    changeColor();
+  }
+  // 中序遍历
+  $("#cen").onclick = function() {
+    resetOrder();
+    cenOrder($("#root"));
+    changeColor();
+  }
+  // 后序遍历
+  $("#las").onclick = function() {
+    resetOrder();
+    lasOrder($("#root"));
+    changeColor();
+  }
+  // 定义获取选择器的函数
+  function $(id){
+    return document.querySelector(id);
+  }
+   // 定义重置函数
+  function resetOrder() {
+    clearInterval(timer); /*清除定时器*/
+    for (var j = 0; j < childNodeLists.length; j++) {
+        childNodeLists[j].setAttribute("class", "")
+    }
+    childNodeLists = []; /*清空数组*/
+  }
+  // 定义先序遍历
+  function preOrder(node){
+    if(!(node == null)){
+      childNodeLists.push(node);
+      // 递归，从根节点到叶子结点，反复调用preOrder函数，把每个节点都放入数组
+      preOrder(node.firstElementChild);
+      preOrder(node.lastElementChild);
+    }
+  }
+  // 定义中序遍历
+  function cenOrder(node){
+    if(!(node == null)){
+      cenOrder(node.firstElementChild);
+      childNodeLists.push(node);
+      cenOrder(node.lastElementChild);
+    }
+  }
+  // 定义后序遍历
+  function lasOrder(node){
+    if(!(node == null)){
+      childNodeLists.push(node);
+      lasOrder(node.firstElementChild);
+      lasOrder(node.lastElementChild);
+    }
+  }
+  // 为遍历后的数组添加颜色
+  function changeColor() {
+    var i = 0;
+    timer = setInterval(function() {
+        if (i < childNodeLists.length) {
+            if (i > 0) {
+                childNodeLists[i - 1].setAttribute("class", "");
+            }
+            // 为数组第一项添加颜色
+            childNodeLists[i].setAttribute("class", "nowColor");
+        } else {
+            clearInterval(timer);
+            childNodeLists[i-1].setAttribute("class","")
+        }
+        i++;
+
+    }, 500)
+  }
   </script>
 </body>
 </html>
