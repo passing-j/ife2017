@@ -12,7 +12,10 @@
     font-size: 14px;
   }
   .color {
-    background: #9308D2;
+    background: #8DEA09;
+  }
+  .stopColor {
+    background: #F3970A;
   }
   </style>
 </head>
@@ -47,34 +50,60 @@
     <div>over</div>
   </div>
   <section>
-    <button id="ergodic">遍历</button>
+    <button id="DFS">深度优先遍历</button>
+    <button id="BFS">广度优先遍历</button>
   </section>
   <section>
     <label for="">Enter:</label>
     <input id="condition" type="text">
-    <button id="query">查找</button>
+    <button id="DFSquery">深度遍历匹配</button>
+    <button id="BFSquery">广度遍历匹配</button>
   </section>
 
   <script>
+  // 声明存放element节点的数组
   var childLists = [];
+  // 声明存放节点文本的数组
+  var childTexts = [];
+  // 参数转移
+  var index = 0;
   var timer = null;
+  // 定义获取选择器的函数
   function $(id) {
     return document.querySelector(id);
   }
-  function ergodic(node) {
-    if (!(node == null)) {
+  // 定义深度优先遍历函数
+  function DFS(node) {
+    if (node) {
+      // 存放element
       childLists.push(node);
+      // 存放文本
+      childTexts.push(node.firstChild.nodeValue.trim());
+      // 对element的每个子element迭代
       for( let i=0;i<node.children.length;i++) {
-        ergodic(node.children[i]);
+        DFS(node.children[i]);
       }
     }
   }
+  // 定义广度优先遍历函数
+  function BFS(node) {
+    if ((node) && (node.tagName==="DIV")) {
+      childLists.push(node);
+      childTexts.push(node.firstChild.nodeValue.trim());
+      BFS(node.nextElementSibling);
+      node = childLists[index++];
+      BFS(node.firstElementChild);
+    }
+  }
+  // 定义遍历时改变颜色函数
   function changeColor() {
     var i = 0;
     timer = setInterval(function() {
       if (i < childLists.length) {
         if (i > 0) {
           childLists[i-1].setAttribute('class', '');
+          childLists[i].setAttribute('class', 'color');
+
         } else {
           childLists[i].setAttribute('class', 'color');
         }
@@ -85,17 +114,75 @@
       i++;
     }, 500);
   }
-  function resetErgodic() {
+  // 定义查找匹配项时改变颜色的函数
+  function queryColor() {
+    var i = 0;
+    timer = setInterval(function() {
+      if(i < childTexts.length) {
+        if (i > 0) {
+          // 判断输入框值与节点文本是否匹配
+          if ($("#condition").value.trim() != childTexts[i]) {
+            childLists[i-1].setAttribute('class', '');
+            childLists[i].setAttribute('class', 'color');
+          } else {
+            childLists[i-1].setAttribute('class', '');
+            childLists[i].setAttribute('class', 'stopColor');
+            // 找到匹配项清除定时器
+            clearInterval(timer);
+          }
+        } else {
+          if ($("#condition").value.trim() !== childTexts[i]) {
+            childLists[i].setAttribute('class', 'color');
+          } else {
+            childLists[i].setAttribute('class', 'stopColor');
+            clearInterval(timer);
+          }
+        }
+      } else {
+        // 遍历完清除定时器
+        clearInterval(timer);
+        childLists[i-1].setAttribute('class', '');
+        alert('Not found result');
+      }
+      i++;
+    }, 500);
+  }
+  // 定义重置遍历函数
+  function resetFS() {
     clearInterval(timer);
+    // 移除每一项的背景颜色
     for(let i=0;i<childLists.length;i++) {
       childLists[i].setAttribute('class', '');
     }
+    // 重置为初始值
     childLists = [];
+    childTexts = [];
+    index = 0;
   }
-  $("#ergodic").onclick = function() {
-    resetErgodic();
-    ergodic($("#root"));
+
+  // 点击深度遍历
+  $("#DFS").onclick = function() {
+    resetFS();
+    DFS($("#root"));
     changeColor();
+  }
+  // 点击广度遍历
+  $("#BFS").onclick = function() {
+    resetFS();
+    BFS($("#root"));
+    changeColor();
+  }
+  // 点击深度遍历匹配
+  $("#DFSquery").onclick = function() {
+    resetFS();
+    DFS($("#root"));
+    queryColor();
+  }
+  // 点击广度遍历匹配
+  $("#BFSquery").onclick = function() {
+    resetFS();
+    BFS($("#root"));
+    queryColor();
   }
   </script>
 </body>
