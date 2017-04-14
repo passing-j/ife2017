@@ -116,36 +116,40 @@
   }
   // 定义查找匹配项时改变颜色的函数
   function queryColor() {
-    var i = 0;
-    timer = setInterval(function() {
-      if(i < childTexts.length) {
-        if (i > 0) {
-          // 判断输入框值与节点文本是否匹配
-          if ($("#condition").value.trim() != childTexts[i]) {
-            childLists[i-1].setAttribute('class', '');
-            childLists[i].setAttribute('class', 'color');
+    if ($("#condition").value == '') {
+      alert('Empty value!');
+    } else {
+      var i = 0;
+      timer = setInterval(function() {
+        if(i < childTexts.length) {
+          if (i > 0) {
+            // 判断输入框值与节点文本是否匹配
+            if ($("#condition").value.trim() != childTexts[i]) {
+              childLists[i-1].setAttribute('class', '');
+              childLists[i].setAttribute('class', 'color');
+            } else {
+              childLists[i-1].setAttribute('class', '');
+              childLists[i].setAttribute('class', 'stopColor');
+              // 找到匹配项清除定时器
+              clearInterval(timer);
+            }
           } else {
-            childLists[i-1].setAttribute('class', '');
-            childLists[i].setAttribute('class', 'stopColor');
-            // 找到匹配项清除定时器
-            clearInterval(timer);
+            if ($("#condition").value.trim() !== childTexts[i]) {
+              childLists[i].setAttribute('class', 'color');
+            } else {
+              childLists[i].setAttribute('class', 'stopColor');
+              clearInterval(timer);
+            }
           }
         } else {
-          if ($("#condition").value.trim() !== childTexts[i]) {
-            childLists[i].setAttribute('class', 'color');
-          } else {
-            childLists[i].setAttribute('class', 'stopColor');
-            clearInterval(timer);
-          }
+          // 遍历完清除定时器
+          clearInterval(timer);
+          childLists[i-1].setAttribute('class', '');
+          alert('Not found result');
         }
-      } else {
-        // 遍历完清除定时器
-        clearInterval(timer);
-        childLists[i-1].setAttribute('class', '');
-        alert('Not found result');
-      }
-      i++;
-    }, 500);
+        i++;
+      }, 500);
+    }
   }
   // 定义重置遍历函数
   function resetFS() {
