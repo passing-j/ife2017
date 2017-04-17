@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>task09 change-mul-Tree</title>
+  <style>
+  div {
+    border: 2px solid #009b9a;
+    background: white;
+    display: flex;
+    margin: 10px;
+    font-size: 14px;
+    cursor: pointer;
+    color: #2A2A2A;
+  }
+  .changeColor {
+    background: #6AB006;
+    color: white;
+  }
+  .changeColor div {
+    color: #2A2A2A;
+  }
+  </style>
+</head>
+<body>
+  <div id="root">super
+    <div>fruit
+      <div>apple
+        <div>banana</div>
+        <div>orange</div>
+        <div>pairs</div>
+        <div>watermelon</div>
+      </div>
+      <div>cat</div>
+      <div>car
+        <div>bmw</div>
+        <div>volvo</div>
+      </div>
+    </div>
+    <div>movie
+      <div>action
+        <div>rack</div>
+        <div>mikky</div>
+        <div>kitty</div>
+      </div>
+      <div>star
+        <div>bob
+          <div>delan</div>
+        </div>
+        <div>juice</div>
+      </div>
+    </div>
+    <div>over</div>
+  </div>
+  <section>
+    <button id="dele">删除</button>
+  </section>
+  <section>
+    <label for="child-node">Enter:</label>
+    <input id="child-node" type="text">
+    <button id="add-node">添加</button>
+  </section>
+
+  <script src="task09.js"></script>
+</body>
+</html>
