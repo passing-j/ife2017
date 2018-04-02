@@ -127,9 +127,9 @@
   // 定义后序遍历
   function lasOrder(node){
     if(!(node == null)){
-      childNodeLists.push(node);
       lasOrder(node.firstElementChild);
       lasOrder(node.lastElementChild);
+      childNodeLists.push(node);
     }
   }
   // 为遍历后的数组添加颜色
